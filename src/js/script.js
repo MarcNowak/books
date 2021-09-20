@@ -20,8 +20,6 @@
 
   function render() {
 
-    // const thisBook = this; // eslint-disable-line no-unused-vars
-
     for (let eachBook of dataSource.books) {
       // Generate HTML based on template
       const generatedHTML = templates.bookTemplate(eachBook);
