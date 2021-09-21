@@ -11,7 +11,7 @@
       list: '.books-list',
     },
     filters: '.filters',
-  }
+  };
 
   class BooksList {
     constructor() {
@@ -40,16 +40,12 @@
         this.data[book].ratingBackground = this.determineRatingBackground(this.data[book].rating);
         this.data[book].ratingWidth = this.data[book].rating * 10;
 
-        /* generate HTML code */
         const generatedHTML = Handlebars.compile(document.querySelector(select.templateOf.book).innerHTML)(this.data[book]);
 
-        /* create DOM element from HTML code */
         this.data[book].element = utils.createDOMFromHTML(generatedHTML);
 
-        /* find books container */
         const menuContainer = document.querySelector(select.book.list);
 
-        /* insert DOM element into container */
         menuContainer.appendChild(this.data[book].element);
       }
     }
@@ -61,7 +57,7 @@
         event.preventDefault;
         const element = event.target.offsetParent;
 
-        if (element.classList.contains(select.book.image)) { //dlaczego selektor '.book__image' daje false?
+        if (element.classList.contains(select.book.image)) {
           element.classList.toggle('favorite');
 
           const bookId = element.getAttribute('data-id');
@@ -72,7 +68,7 @@
             thisBooksList.options.favoriteBooks.splice(thisBooksList.options.favoriteBooks.indexOf(bookId), 1);
           }
         }
-      })
+      });
 
 
       this.DOM.filtersForm.addEventListener('click', function (event) {
@@ -91,24 +87,24 @@
 
           thisBooksList.filterBooks();
         }
-      })
+      });
     }
 
     filterBooks() {
       for (const bookId in this.data) {
         const book = this.data[bookId];
 
-        const filteredElement = this.DOM.bookContainer.querySelector('.book__image[data-id=\"' + book.id + '\"]');
+        const filteredElement = this.DOM.bookContainer.querySelector('.book__image[data-id="' + book.id + '"]');
 
         filteredElement.classList.remove('hidden');
 
-        for (const detailName in book.details) {
-          const detailValue = book.details[detailName];
+        for (const filter of this.options.filters) {
+          const detailValue = book.details[filter];
 
-          if (!detailValue && this.options.filters.includes(detailName)) {
+          if (detailValue) {
             filteredElement.classList.add('hidden');
             break;
-          };
+          }
         }
       }
     }
